@@ -12,6 +12,7 @@ from bc_metrics import MetricCollector
 from fastapi import FastAPI
 
 from azuretests.env_vars import env_name_ev, metric_send_every_override_ev
+from azuretests.loader import start_load
 
 
 logger = getLogger("biocatch." + __name__)
@@ -34,6 +35,7 @@ class AzureTestsService(FastAPI):
             asyncio_logging=False,
         )
         setup_logging(logging_settings)
+        # start_load()
 
     async def shutdown(self):
         tasks = [self.metrics.close()]
@@ -42,3 +44,4 @@ class AzureTestsService(FastAPI):
         except TimeoutError:
             logger.error("closing tasks did not finish in a timely manner!")
         logging.shutdown()
+
