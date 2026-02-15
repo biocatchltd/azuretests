@@ -35,6 +35,8 @@ class AzureTestsService(FastAPI):
             asyncio_logging=False,
         )
         setup_logging(logging_settings)
+        self.metrics = MetricCollector.from_env()
+        await self.metrics.connect(metric_send_every_override_ev.get())
         # start_load()
 
     async def shutdown(self):
